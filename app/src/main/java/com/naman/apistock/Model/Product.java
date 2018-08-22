@@ -10,8 +10,8 @@ public class Product {
     @PrimaryKey(autoGenerate = true)
     private int productId;
     private String name;
+    // type - HD/PET
     private String type;
-    private String make;
     @Ignore
     private double price;
     private double weight;
@@ -32,14 +32,6 @@ public class Product {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
     }
 
     public double getPrice() {

@@ -11,7 +11,7 @@ public class RawMaterial {
     private int rawId;
     private String name;
     private String type;
-    private String make;
+
     @Ignore
     private double price;
     private String grade;
@@ -39,14 +39,6 @@ public class RawMaterial {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
     }
 
     public double getPrice() {

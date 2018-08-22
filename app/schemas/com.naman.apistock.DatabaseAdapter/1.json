@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "dac915ba1767df80999181a148e380e4",
+    "identityHash": "fdc0a752c5a465bb50af7efbff8cb956",
     "entities": [
       {
         "tableName": "Product",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `make` TEXT, `weight` REAL NOT NULL, `neckSize` REAL NOT NULL, `color` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `weight` REAL NOT NULL, `neckSize` REAL NOT NULL, `color` TEXT)",
         "fields": [
           {
             "fieldPath": "productId",
@@ -23,12 +23,6 @@
           {
             "fieldPath": "type",
             "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "make",
-            "columnName": "make",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -62,7 +56,7 @@
       },
       {
         "tableName": "RawMaterial",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rawId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `make` TEXT, `grade` TEXT, `manufacturer` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rawId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `grade` TEXT, `manufacturer` TEXT)",
         "fields": [
           {
             "fieldPath": "rawId",
@@ -79,12 +73,6 @@
           {
             "fieldPath": "type",
             "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "make",
-            "columnName": "make",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -145,7 +133,17 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "id_index",
+            "unique": false,
+            "columnNames": [
+              "productId",
+              "rawId"
+            ],
+            "createSql": "CREATE  INDEX `id_index` ON `${TABLE_NAME}` (`productId`, `rawId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Product",
@@ -174,7 +172,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"dac915ba1767df80999181a148e380e4\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fdc0a752c5a465bb50af7efbff8cb956\")"
     ]
   }
 }

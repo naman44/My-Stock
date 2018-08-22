@@ -2,11 +2,13 @@ package com.naman.apistock.Model;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {@ForeignKey(entity = Product.class, parentColumns = "productId", childColumns = "productId", onDelete = CASCADE),
+@Entity (indices = @Index(name = "id_index", value ={"productId", "rawId"}),
+        foreignKeys = {@ForeignKey(entity = Product.class, parentColumns = "productId", childColumns = "productId", onDelete = CASCADE),
                         @ForeignKey(entity = RawMaterial.class, parentColumns = "rawId", childColumns = "rawId", onDelete = CASCADE)})
 public class Inventory {
 

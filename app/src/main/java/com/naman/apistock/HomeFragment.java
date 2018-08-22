@@ -23,17 +23,13 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-        dbAdapter = Room.databaseBuilder(getContext(),
-                DatabaseAdapter.class, "sample-db").build();
+        dbAdapter = DatabaseAdapter.getInstance(getContext());
         btn = v.findViewById(R.id.click);
-        btn.setOnClickListener((View vi)->{
-            new DbAsync().execute();
-        });
-
+        btn.setOnClickListener((View vi)-> new DbAsync().execute());
         return v;
     }
 
-    private class DbAsync extends AsyncTask<Void, Void, Integer>{
+    private class DbAsync extends AsyncTask<Void, Void, Void>{
 
         @Override
         protected void onPreExecute() {
@@ -41,23 +37,13 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected Integer doInBackground(Void... voids) {
-//            Product product = new Product();
-//            product.setName("Imida");
-//            long id = dbAdapter.productDao().insertProduct(product);
-//            Inventory inv = new Inventory();
-//
-//            inv.setProductId((int)id);
-//            inv.setQuantity(2000);
-//            dbAdapter.inventoryDao().insertInventory(inv);
-            Inventory inv = dbAdapter.inventoryDao().fetchProductInventory();
-            return inv.getQuantity();
+        protected Void doInBackground(Void... voids) {
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Integer aVoid) {
+        protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            btn.setText(aVoid+"");
         }
     }
 }

@@ -22,7 +22,7 @@ public abstract class DatabaseAdapter extends RoomDatabase {
         if(dbAdapter == null){
             synchronized (context){
                 dbAdapter = Room.databaseBuilder(context,
-                        DatabaseAdapter.class, "sample-db").fallbackToDestructiveMigration().build();
+                        DatabaseAdapter.class, context.getString(R.string.db_title)).fallbackToDestructiveMigration().build();
             }
         }
         return dbAdapter;
