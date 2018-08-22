@@ -1,0 +1,113 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "e7a81805fe644b06b9103709db4c8d2d",
+    "entities": [
+      {
+        "tableName": "Item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `make` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "make",
+            "columnName": "make",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Product",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` INTEGER NOT NULL, `weight` REAL NOT NULL, `neckSize` REAL NOT NULL, `color` TEXT, `id` INTEGER NOT NULL, `name` TEXT, `type` TEXT, `make` TEXT, PRIMARY KEY(`productId`))",
+        "fields": [
+          {
+            "fieldPath": "productId",
+            "columnName": "productId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "neckSize",
+            "columnName": "neckSize",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "make",
+            "columnName": "make",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "productId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e7a81805fe644b06b9103709db4c8d2d\")"
+    ]
+  }
+}

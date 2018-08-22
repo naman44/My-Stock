@@ -1,0 +1,180 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "dac915ba1767df80999181a148e380e4",
+    "entities": [
+      {
+        "tableName": "Product",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `make` TEXT, `weight` REAL NOT NULL, `neckSize` REAL NOT NULL, `color` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "productId",
+            "columnName": "productId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "make",
+            "columnName": "make",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "neckSize",
+            "columnName": "neckSize",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "productId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "RawMaterial",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rawId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `make` TEXT, `grade` TEXT, `manufacturer` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "rawId",
+            "columnName": "rawId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "make",
+            "columnName": "make",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "manufacturer",
+            "columnName": "manufacturer",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rawId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Inventory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `productId` INTEGER, `rawId` INTEGER, `quantity` INTEGER NOT NULL, FOREIGN KEY(`productId`) REFERENCES `Product`(`productId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`rawId`) REFERENCES `RawMaterial`(`rawId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productId",
+            "columnName": "productId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rawId",
+            "columnName": "rawId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Product",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "productId"
+            ],
+            "referencedColumns": [
+              "productId"
+            ]
+          },
+          {
+            "table": "RawMaterial",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rawId"
+            ],
+            "referencedColumns": [
+              "rawId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"dac915ba1767df80999181a148e380e4\")"
+    ]
+  }
+}
