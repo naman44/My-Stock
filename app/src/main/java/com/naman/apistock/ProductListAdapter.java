@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.naman.apistock.Model.Product;
+import com.naman.apistock.Model.RawMaterial;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
@@ -38,6 +40,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return new ProductListViewHolder(v);
     }
 
+    public void updateList(List newList){
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new ProductListCallback(newList, mList));
+        mList.clear();
+        mList.addAll(newList);
+        result.dispatchUpdatesTo(this);
+    }
+
     @Override
     public int getItemCount() {
         return mList.size();
@@ -45,7 +54,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ProductListViewHolder holder, int position) {
-        Product product = (Product) mList.get(position);
-        holder.tv.setText(product.getName());
+        if(mList.get(position) instanceof  Product){
+            Product product = (Product) mList.get(position);
+            holder.tv.setText(product.getName());
+        }
+        else{
+            RawMaterial raw = (RawMaterial) mList.get(position);
+            holder.tv.setText(raw.getName());
+        }
     }
 }

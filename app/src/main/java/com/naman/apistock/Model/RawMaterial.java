@@ -64,4 +64,16 @@ public class RawMaterial {
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
     }
+
+    @Ignore
+    public boolean compareObjects(RawMaterial p1, RawMaterial p2){
+        if(p1.name.equalsIgnoreCase(p2.name) &&
+                p1.price == p2.price &&
+                p1.grade.equalsIgnoreCase(p2.grade) &&
+                p1.manufacturer.equalsIgnoreCase(p2.manufacturer) &&
+                p1.type.equalsIgnoreCase(p2.type)){
+            return true;
+        }
+        return false;
+    }
 }

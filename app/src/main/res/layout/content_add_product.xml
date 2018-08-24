@@ -11,6 +11,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_item_brand_text"
+            android:inputType="textAutoComplete"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -24,6 +26,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_item_weight_text"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -37,6 +41,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_item_neck_text"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -50,6 +56,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_item_color_text"
+            android:inputType="textAutoComplete"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>

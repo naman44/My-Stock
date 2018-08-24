@@ -12,7 +12,7 @@ import androidx.room.Query;
 public interface RawDao {
 
     @Insert
-    void insertRawData(RawMaterial raw);
+    long insertRawData(RawMaterial raw);
 
     @Query("select * from rawMaterial")
     List<RawMaterial> fetchAllRawData();

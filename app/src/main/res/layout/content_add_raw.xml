@@ -10,6 +10,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_item_grade_text"
+            android:inputType="textAutoComplete"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -23,6 +25,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_item_maker_text"
+            android:inputType="textAutoComplete"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -28,6 +28,9 @@ public class RetrieveListAsync extends AsyncTask<Void, Void, List> {
         if(callType.equalsIgnoreCase(mContext.getString(R.string.item_type_product))){
             return dbAdapter.productDao().fetchAllProducts();
         }
+        else if(callType.equalsIgnoreCase(mContext.getString(R.string.item_type_raw))){
+            return dbAdapter.rawDao().fetchAllRawData();
+        }
         return null;
     }
 
