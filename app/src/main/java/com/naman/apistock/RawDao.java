@@ -7,6 +7,7 @@ import java.util.List;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 @Dao
 public interface RawDao {
@@ -16,4 +17,10 @@ public interface RawDao {
 
     @Query("select * from rawMaterial")
     List<RawMaterial> fetchAllRawData();
+
+    @Query("delete from rawmaterial where rawId=:id")
+    int deleteRaw(int id);
+
+    @Update
+    int updateRawData(RawMaterial raw);
 }

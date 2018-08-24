@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (indices = @Index(name = "id_index", value ={"productId", "rawId"}),
+@Entity (indices = {@Index(value ="productId"),
+                    @Index(value = "rawId")},
         foreignKeys = {@ForeignKey(entity = Product.class, parentColumns = "productId", childColumns = "productId", onDelete = CASCADE),
                         @ForeignKey(entity = RawMaterial.class, parentColumns = "rawId", childColumns = "rawId", onDelete = CASCADE)})
 public class Inventory {

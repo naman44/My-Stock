@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0e4d15b0f2d1444146890b255325e693",
+    "identityHash": "0d5469b4472316fa47ae4a0b6cee2c9b",
     "entities": [
       {
         "tableName": "Product",
@@ -141,13 +141,20 @@
         },
         "indices": [
           {
-            "name": "id_index",
+            "name": "index_Inventory_productId",
             "unique": false,
             "columnNames": [
-              "productId",
+              "productId"
+            ],
+            "createSql": "CREATE  INDEX `index_Inventory_productId` ON `${TABLE_NAME}` (`productId`)"
+          },
+          {
+            "name": "index_Inventory_rawId",
+            "unique": false,
+            "columnNames": [
               "rawId"
             ],
-            "createSql": "CREATE  INDEX `id_index` ON `${TABLE_NAME}` (`productId`, `rawId`)"
+            "createSql": "CREATE  INDEX `index_Inventory_rawId` ON `${TABLE_NAME}` (`rawId`)"
           }
         ],
         "foreignKeys": [
@@ -178,7 +185,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0e4d15b0f2d1444146890b255325e693\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0d5469b4472316fa47ae4a0b6cee2c9b\")"
     ]
   }
 }

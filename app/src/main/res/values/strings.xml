@@ -16,7 +16,8 @@
     <string name="hint_add_item_color">Enter Item Color</string>
     <string name="hint_add_item_grade">Enter Item Grade</string>
     <string name="hint_add_item_maker">Enter Item Maker</string>
-
+    <string name="insert_success">Value inserted!</string>
+    <string name="insert_error">Issue in Insert!</string>
     <string name="item_type_product">Product</string>
     <string name="item_type_raw">Raw Material</string>
 
@@ -33,4 +34,8 @@
         <item>Random PP</item>
         <item>Others</item>
     </string-array>
+
+    <string name="double_string">%1$.1f</string>
+    <string name="display_weight">%1$.1f g</string>
+    <string name="display_neck">%1$.1f mm</string>
 </resources>
