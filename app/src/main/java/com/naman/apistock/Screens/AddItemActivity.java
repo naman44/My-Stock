@@ -4,27 +4,23 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.transition.TransitionManager;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
-import com.naman.apistock.DeleteItemAsync;
-import com.naman.apistock.InsertItemAsync;
-import com.naman.apistock.ItemAsync;
-import com.naman.apistock.Model.Product;
-import com.naman.apistock.Model.RawMaterial;
-import com.naman.apistock.ProductListAdapter;
-import com.naman.apistock.ProductListViewHolder;
+import com.naman.apistock.Utils.AppUtil;
+import com.naman.apistock.DatabaseAdapter;
+import com.naman.apistock.Async.ItemAsync;
+import com.naman.apistock.Model.Item;
+import com.naman.apistock.Adapter.ProductListAdapter;
+import com.naman.apistock.Adapter.ProductListViewHolder;
 import com.naman.apistock.R;
-import com.naman.apistock.RetrieveListAsync;
-import com.naman.apistock.StringUtils;
+import com.naman.apistock.Utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +79,7 @@ public class AddItemActivity extends AppCompatActivity implements ProductListVie
         brandName = findViewById(R.id.add_item_brand_text);
         weight = findViewById(R.id.add_item_weight_text);
         neck = findViewById(R.id.add_item_neck_text);
-        color = findViewById(R.id.add_item_color_text);
+
     }
 
     private void initRawLayout(){
@@ -98,7 +94,6 @@ public class AddItemActivity extends AppCompatActivity implements ProductListVie
         LinearLayoutManager layoutRv = new LinearLayoutManager(this);
         layoutRv.setOrientation(RecyclerView.VERTICAL);
         itemListView.setLayoutManager(layoutRv);
-        itemListView.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         productList = new ArrayList();
         adapter = new ProductListAdapter(this, productList, this);
         itemListView.setAdapter(adapter);
@@ -116,40 +111,36 @@ public class AddItemActivity extends AppCompatActivity implements ProductListVie
         materialSpin = findViewById(R.id.spinner_product_type);
         layout = findViewById(R.id.layout_head_add_item);
         typeSpin = findViewById(R.id.spinner_item_type);
+        color = findViewById(R.id.add_item_color_text);
     }
 
-    private RawMaterial returnRawFromPage(int id){
-        RawMaterial raw = new RawMaterial();
-        if(id != 0){
-            raw.setRawId(id);
-        }
+    private Item createItemFromPage(int id){
+        Item item = new Item();
+        if(id != 0)
+            item.setItemId(id);
         if(name.getText() != null)
-            raw.setName(name.getText().toString());
-        raw.setType(materialSpin.getSelectedItem().toString());
-        if(grade.getText() != null)
-            raw.setGrade(grade.getText().toString());
-        if(maker.getText() != null)
-            raw.setManufacturer(maker.getText().toString());
-        return raw;
-    }
-
-    private Product returnProductFromPage(int id){
-        Product product = new Product();
-        if(id != 0){
-            product.setProductId(id);
-        }
-        if(name.getText() != null)
-            product.setName(name.getText().toString());
-        if(weight.getText() != null && !weight.getText().toString().isEmpty())
-            product.setWeight(Double.parseDouble(weight.getText().toString()));
-        if(neck.getText() != null && !neck.getText().toString().isEmpty())
-            product.setNeckSize(Double.parseDouble(neck.getText().toString()));
+            item.setName(name.getText().toString());
         if(color.getText() != null)
-            product.setColor(color.getText().toString());
-        product.setType(materialSpin.getSelectedItem().toString());
-        if(brandName.getText() != null)
-            product.setBrandName(brandName.getText().toString());
-        return product;
+            item.setColor(color.getText().toString());
+        item.setItemType(typeSpin.getSelectedItem().toString());
+        item.setPlasticType(materialSpin.getSelectedItem().toString());
+
+        // product - raw
+        if(item.getItemType().equalsIgnoreCase(getString(R.string.item_type_product))){
+            if(brandName.getText() != null)
+                item.setBrandName(brandName.getText().toString());
+            if(weight.getText() != null && !weight.getText().toString().isEmpty())
+                item.setWeight(Double.parseDouble(weight.getText().toString()));
+            if(neck.getText() != null && !neck.getText().toString().isEmpty())
+                item.setNeckSize(Double.parseDouble(neck.getText().toString()));
+        }
+        else{
+            if(grade.getText() != null)
+                item.setGrade(grade.getText().toString());
+            if(maker.getText() != null)
+                item.setManufacturer(maker.getText().toString());
+        }
+        return item;
     }
 
     @Override
@@ -158,19 +149,16 @@ public class AddItemActivity extends AppCompatActivity implements ProductListVie
         performDbTask(null, StringUtils.FETCH_DATA);
     }
 
-    private void performDbTask(Object obj, String process) {
+    private void performDbTask(Item obj, String process) {
         ItemAsync asyncObj;
-        asyncObj = new ItemAsync(this, obj, process);
+        DatabaseAdapter db = DatabaseAdapter.getInstance(this);
+        asyncObj = new ItemAsync(db, obj, process);
         try{
             if(process.equalsIgnoreCase(StringUtils.FETCH_DATA)){
-                if(typeSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.item_type_product))){
-                    asyncObj = new ItemAsync(this, new Product(), process);
-                }
-                else{
-                    asyncObj = new ItemAsync(this, new RawMaterial(), process);
-                }
+                Item item = new Item(typeSpin.getSelectedItem().toString());
+                asyncObj = new ItemAsync(db, item, process);
                 productList = asyncObj.execute().get();
-                adapter.updateList(productList);
+                adapter.updateItemList(productList);
             }
             else{
                 asyncObj.execute();
@@ -182,51 +170,32 @@ public class AddItemActivity extends AppCompatActivity implements ProductListVie
     }
 
     @Override
-    public void onEditClicked(Object obj) {
-        if(obj instanceof Product){
-            fillValuesToLayout((Product) obj);
+    public void onEditClicked(Object item) {
+            fillValuesToLayout((Item) item);
             fab.setOnClickListener((View v)->{
-                performDbTask(returnProductFromPage(((Product) obj).getProductId()),StringUtils.UPDATE_DATA);
+                performDbTask(createItemFromPage(((Item)item).getItemId()),StringUtils.UPDATE_DATA);
                 resetLayout();
             });
-        }
-        else if(obj instanceof RawMaterial){
-            fillValuesToLayout((RawMaterial) obj);
-            fab.setOnClickListener((View v)-> {
-                performDbTask(returnRawFromPage(((RawMaterial) obj).getRawId()) ,StringUtils.UPDATE_DATA);
-                resetLayout();
-            });
-        }
     }
 
     @Override
     public void onDeleteClicked(Object obj) {
-        performDbTask(obj, StringUtils.DELETE_DATA);
+        performDbTask((Item) obj, StringUtils.DELETE_DATA);
     }
 
-    private void fillValuesToLayout(Product p){
-        name.setText(p.getName());
-        brandName.setText(p.getBrandName());
-        materialSpin.setSelection(getIndex(materialSpin, p.getType()));
-        weight.setText(getString(R.string.double_string, p.getWeight()));
-        neck.setText(getString(R.string.double_string, p.getNeckSize()));
-        color.setText(p.getColor());
-    }
-
-    private void fillValuesToLayout(RawMaterial r){
-        name.setText(r.getName());
-        materialSpin.setSelection(getIndex(materialSpin, r.getType()));
-        grade.setText(r.getGrade());
-        maker.setText(r.getManufacturer());
-    }
-
-    private int getIndex(Spinner spin, String value){
-        for(int i=0; i<spin.getCount(); i++){
-            if(spin.getItemAtPosition(i).toString().equalsIgnoreCase(value)){
-                return i;
-            }
+    private void fillValuesToLayout(Item i){
+        name.setText(i.getName());
+        materialSpin.setSelection(AppUtil.getSpinIndex(materialSpin, i.getItemType()));
+        color.setText(i.getColor());
+        if(typeSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.item_type_product))){
+            brandName.setText(i.getBrandName());
+            weight.setText(getString(R.string.double_string, i.getWeight()));
+            neck.setText(getString(R.string.double_string, i.getNeckSize()));
         }
-        return -1;
+        else{
+            grade.setText(i.getGrade());
+            maker.setText(i.getManufacturer());
+        }
     }
 
     private void resetLayout(){
@@ -243,16 +212,14 @@ public class AddItemActivity extends AppCompatActivity implements ProductListVie
             grade.setText("");
             maker.setText("");
         }
+        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        fab.requestFocusFromTouch();
     }
 
     private void setFabReset(){
         fab.setOnClickListener((View view) -> {
-            if(typeSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.item_type_product))){
-                performDbTask(returnProductFromPage(0), StringUtils.INSERT_DATA);
-            }
-            else{
-                performDbTask(returnRawFromPage(0), StringUtils.INSERT_DATA);
-            }
+            performDbTask(createItemFromPage(0), StringUtils.INSERT_DATA);
             resetLayout();
         });
     }

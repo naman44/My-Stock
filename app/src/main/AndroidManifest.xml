@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".Screens.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,10 +20,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:windowSoftInputMode="adjustPan"
             android:name=".Screens.AddItemActivity"
             android:label="@string/title_activity_add_item"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Screens.AddPartnerActivity"
+            android:label="@string/title_activity_add_partner"
+            android:parentActivityName=".Screens.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.naman.apistock.Screens.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Screens.PurchaseActivity"
+            android:label="@string/title_activity_purchase"
+            android:windowSoftInputMode="adjustPan"
+            android:parentActivityName=".Screens.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.naman.apistock.Screens.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

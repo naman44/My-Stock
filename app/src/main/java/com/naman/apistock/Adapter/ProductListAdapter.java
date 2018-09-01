@@ -1,11 +1,14 @@
-package com.naman.apistock;
+package com.naman.apistock.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.naman.apistock.Model.Product;
-import com.naman.apistock.Model.RawMaterial;
+
+import com.naman.apistock.DiffUtils.PartnerListCallBack;
+import com.naman.apistock.DiffUtils.ProductListCallback;
+import com.naman.apistock.R;
+
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -29,8 +32,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
         return new ProductListViewHolder(v, mContext, listener);
     }
 
-    public void updateList(List newList){
+    public void updateItemList(List newList){
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(new ProductListCallback(newList, mList));
+        mList.clear();
+        mList.addAll(newList);
+        result.dispatchUpdatesTo(this);
+    }
+
+    public void updatePartnerList(List newList){
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new PartnerListCallBack(newList, mList));
         mList.clear();
         mList.addAll(newList);
         result.dispatchUpdatesTo(this);
@@ -43,13 +53,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ProductListViewHolder holder, int position) {
-        if(mList.get(position) instanceof  Product){
-            Product product = (Product) mList.get(position);
-            holder.setProductObj(product);
-        }
-        else{
-            RawMaterial raw = (RawMaterial) mList.get(position);
-            holder.setRawObj(raw);
-        }
+            holder.setObj(mList.get(position));
+
     }
 }

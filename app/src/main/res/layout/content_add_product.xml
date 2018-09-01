@@ -11,55 +11,51 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_item_brand_text"
-            android:inputType="textAutoComplete"
+            android:inputType="textCapSentences"
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_item_weight_layout"
-        android:hint="@string/hint_add_item_weight"
+    <LinearLayout
         android:layout_below="@id/add_item_brand_layout"
+        android:baselineAligned="false"
+        android:id="@+id/top_linear"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_item_weight_text"
-            android:inputType="numberDecimal"
-            android:maxLines="1"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_item_weight_layout"
+            android:layout_weight="0.5"
+            android:hint="@string/hint_add_item_weight"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_item_neck_layout"
-        android:hint="@string/hint_add_item_neck"
-        android:layout_below="@id/add_item_weight_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_item_weight_text"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_item_neck_text"
-            android:inputType="numberDecimal"
-            android:maxLines="1"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_item_neck_layout"
+            android:hint="@string/hint_add_item_neck"
+            android:layout_weight="0.5"
+            android:layout_below="@id/top_linear"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_item_color_layout"
-        android:hint="@string/hint_add_item_color"
-        android:layout_below="@id/add_item_neck_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_item_neck_text"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_item_color_text"
-            android:inputType="textAutoComplete"
-            android:maxLines="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 </RelativeLayout>

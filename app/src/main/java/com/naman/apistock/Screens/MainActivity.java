@@ -1,4 +1,4 @@
-package com.naman.apistock;
+package com.naman.apistock.Screens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
+import com.naman.apistock.HomeFragment;
+import com.naman.apistock.R;
 import com.naman.apistock.Screens.AddItemActivity;
 
 import androidx.core.view.GravityCompat;

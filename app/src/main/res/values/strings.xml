@@ -20,22 +20,59 @@
     <string name="insert_error">Issue in Insert!</string>
     <string name="item_type_product">Product</string>
     <string name="item_type_raw">Raw Material</string>
+    <string name="partner_type_supplier">Supplier</string>
+    <string name="partner_type_customer">Customer</string>
+    <string name="hint_add_partner_name">Enter Partner Name</string>
+    <string name="hint_add_partner_owner">Enter Owner Name</string>
+    <string name="hint_add_partner_address">Enter Address</string>
+    <string name="hint_add_partner_gst">Enter GST Number</string>
+    <string name="hint_add_partner_phone">Enter Contact Number</string>
+    <string name="hint_add_quantity">Enter Quantity</string>
+    <string name="hint_add_price">Enter Price</string>
+    <string name="hint_add_invoice">Invoice Number</string>
+    <string name="btn_name_add">Add</string>
+    <string name="total_wo_gst">Total w/o GST:</string>
+    <string name="gst_amount">GST Amount:</string>
+    <string name="total_amount">Total Amount:</string>
+    <string name="hint_gst_rate">GST Rate</string>
+
+
 
     <string-array name="item_type">
         <item>@string/item_type_product</item>
         <item>@string/item_type_raw</item>
     </string-array>
-
+    <string-array name="partner_type">
+        <item>@string/partner_type_supplier</item>
+        <item>@string/partner_type_customer</item>
+    </string-array>
     <string-array name="plastic_type">
-        <item>HDPE</item>
+        <item>HDPE-blow</item>
+        <item>HDPE-Inj</item>
         <item>PET</item>
         <item>CP</item>
         <item>PP</item>
         <item>Random PP</item>
+        <item>MasterBatch</item>
         <item>Others</item>
+    </string-array>
+    <string-array name="unit_type">
+        <item>Kg</item>
+        <item>pcs</item>
+        <item>g</item>
+    </string-array>
+    <string-array name="gst_type">
+        <item>IGST</item>
+        <item>GST</item>
     </string-array>
 
     <string name="double_string">%1$.1f</string>
     <string name="display_weight">%1$.1f g</string>
     <string name="display_neck">%1$.1f mm</string>
+    <string name="display_phone">%1$d</string>
+    <string name="display_price">%1$.2f \u20B9</string>
+    <string name="display_quantity_unit">%1$d %2$s</string>
+    <string name="title_activity_add_partner">AddPartnerActivity</string>
+    <string name="title_activity_purchase">Purchase</string>
+    <string name="title_purchase">Supplier: %1$s</string>
 </resources>

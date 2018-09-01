@@ -1,4 +1,4 @@
-package com.naman.apistock;
+package com.naman.apistock.DAO;
 
 import com.naman.apistock.Model.Inventory;
 import java.util.List;
@@ -17,7 +17,4 @@ public interface InventoryDao {
 
     @Query("select * from inventory where productId=:id")
     Inventory fetchInventoryById(int id);
-
-    @Query("select * from inventory where productId is not null")
-    Inventory fetchProductInventory();
 }

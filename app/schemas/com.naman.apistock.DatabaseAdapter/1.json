@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0d5469b4472316fa47ae4a0b6cee2c9b",
+    "identityHash": "e09b898c90994674e3b8ed1eef1228fe",
     "entities": [
       {
-        "tableName": "Product",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `brandName` TEXT, `type` TEXT, `weight` REAL NOT NULL, `neckSize` REAL NOT NULL, `color` TEXT)",
+        "tableName": "Item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `itemType` TEXT, `plasticType` TEXT, `color` TEXT, `brandName` TEXT, `weight` REAL NOT NULL, `neckSize` REAL NOT NULL, `grade` TEXT, `manufacturer` TEXT)",
         "fields": [
           {
-            "fieldPath": "productId",
-            "columnName": "productId",
+            "fieldPath": "itemId",
+            "columnName": "itemId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -21,14 +21,26 @@
             "notNull": false
           },
           {
-            "fieldPath": "brandName",
-            "columnName": "brandName",
+            "fieldPath": "itemType",
+            "columnName": "itemType",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "type",
-            "columnName": "type",
+            "fieldPath": "plasticType",
+            "columnName": "plasticType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "brandName",
+            "columnName": "brandName",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -45,15 +57,21 @@
             "notNull": true
           },
           {
-            "fieldPath": "color",
-            "columnName": "color",
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "manufacturer",
+            "columnName": "manufacturer",
             "affinity": "TEXT",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "productId"
+            "itemId"
           ],
           "autoGenerate": true
         },
@@ -61,12 +79,12 @@
         "foreignKeys": []
       },
       {
-        "tableName": "RawMaterial",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rawId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `grade` TEXT, `manufacturer` TEXT)",
+        "tableName": "Partner",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `type` TEXT, `owner` TEXT, `address` TEXT, `gstNo` TEXT, `contactNo` INTEGER NOT NULL)",
         "fields": [
           {
-            "fieldPath": "rawId",
-            "columnName": "rawId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -83,21 +101,33 @@
             "notNull": false
           },
           {
-            "fieldPath": "grade",
-            "columnName": "grade",
+            "fieldPath": "owner",
+            "columnName": "owner",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "manufacturer",
-            "columnName": "manufacturer",
+            "fieldPath": "address",
+            "columnName": "address",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "gstNo",
+            "columnName": "gstNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contactNo",
+            "columnName": "contactNo",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "rawId"
+            "id"
           ],
           "autoGenerate": true
         },
@@ -106,7 +136,7 @@
       },
       {
         "tableName": "Inventory",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `productId` INTEGER, `rawId` INTEGER, `quantity` INTEGER NOT NULL, FOREIGN KEY(`productId`) REFERENCES `Product`(`productId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`rawId`) REFERENCES `RawMaterial`(`rawId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `productId` INTEGER, `quantity` INTEGER NOT NULL, FOREIGN KEY(`productId`) REFERENCES `Item`(`itemId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -117,12 +147,6 @@
           {
             "fieldPath": "productId",
             "columnName": "productId",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "rawId",
-            "columnName": "rawId",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -147,45 +171,88 @@
               "productId"
             ],
             "createSql": "CREATE  INDEX `index_Inventory_productId` ON `${TABLE_NAME}` (`productId`)"
-          },
-          {
-            "name": "index_Inventory_rawId",
-            "unique": false,
-            "columnNames": [
-              "rawId"
-            ],
-            "createSql": "CREATE  INDEX `index_Inventory_rawId` ON `${TABLE_NAME}` (`rawId`)"
           }
         ],
         "foreignKeys": [
           {
-            "table": "Product",
+            "table": "Item",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
               "productId"
             ],
             "referencedColumns": [
-              "productId"
-            ]
-          },
-          {
-            "table": "RawMaterial",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "rawId"
-            ],
-            "referencedColumns": [
-              "rawId"
+              "itemId"
             ]
           }
         ]
+      },
+      {
+        "tableName": "Purchase",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT, `partner` TEXT, `invoiceNo` TEXT, `totalAmount` REAL NOT NULL, `paidAmount` REAL NOT NULL, `paidDate` TEXT, `itemList` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "partner",
+            "columnName": "partner",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "invoiceNo",
+            "columnName": "invoiceNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalAmount",
+            "columnName": "totalAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paidAmount",
+            "columnName": "paidAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paidDate",
+            "columnName": "paidDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemList",
+            "columnName": "itemList",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0d5469b4472316fa47ae4a0b6cee2c9b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e09b898c90994674e3b8ed1eef1228fe\")"
     ]
   }
 }

@@ -7,16 +7,13 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (indices = {@Index(value ="productId"),
-                    @Index(value = "rawId")},
-        foreignKeys = {@ForeignKey(entity = Product.class, parentColumns = "productId", childColumns = "productId", onDelete = CASCADE),
-                        @ForeignKey(entity = RawMaterial.class, parentColumns = "rawId", childColumns = "rawId", onDelete = CASCADE)})
+@Entity (indices = @Index(value ="productId"),
+        foreignKeys = @ForeignKey(entity = Item.class, parentColumns = "itemId", childColumns = "productId", onDelete = CASCADE))
 public class Inventory {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
     private Integer productId;
-    private Integer rawId;
     private int quantity;
 
     public int getId() {
@@ -33,14 +30,6 @@ public class Inventory {
 
     public void setProductId(Integer productId) {
         this.productId = productId;
-    }
-
-    public Integer getRawId() {
-        return rawId;
-    }
-
-    public void setRawId(Integer rawId) {
-        this.rawId = rawId;
     }
 
     public int getQuantity() {
